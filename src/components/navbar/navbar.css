@@ -1,0 +1,30 @@
+.navbar{
+    height: 100px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+}
+.navbar__logo h3{
+    font-family: "Poppins" sans-serif;
+    color: #FFFFFF;
+    font-weight: var(--font-medium--);
+    font-size: 30px;
+}
+
+.navbar__links{
+    
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+}
+.navbar__link{
+    font-family: "Poppins" sans-serif;
+    color: #FFFFFF;
+    font-weight: var(--font-normal--);
+    font-size: 20px;
+    text-decoration: none;
+}

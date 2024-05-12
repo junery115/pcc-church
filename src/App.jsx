@@ -1,7 +1,7 @@
 import React from 'react'
-import './app.css'
+import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import { About, Contact, Events, Gallery, GalleryImage, Home,Event,Profile, EditEvent, CreateEvent } from './pages'
+import { About, Contact, Events, Gallery, GalleryImage, Home,Event,Profile, EditEvent, CreateEvent, Testimony, CreateTestimony, Testimonies } from './pages'
 import { Navbar,Footer,ProtectedRoute } from './components'
 const App = () => {
   return (
@@ -9,20 +9,23 @@ const App = () => {
     <div className='App'>
         <Navbar/>
        <Routes>
-       <Route exact path='/' element={<Home/>}/>
-       <Route exact path='/about-us' element={<About/>}/>
-       <Route exact path='/contact-us' element={<Contact/>}/>
-       <Route exact path='/gallery' element={<Gallery/>}/>
-       <Route exact path='/gallery/:id' element={<GalleryImage/>}/>
-       <Route exact path='/events' element={<Events/>}/>
-       <Route exact path='/event/:id' element={<Event/>}/>
+       <Route path='/' element={<Home/>}/>
+       <Route path='/about-us' element={<About/>}/>
+       <Route path='/contact-us' element={<Contact/>}/>
+       <Route path='/gallery' element={<Gallery/>}/>
+       <Route path='/gallery/:id' element={<GalleryImage/>}/>
+       <Route path='/events' element={<Events/>}/>
+       <Route path='/event/:id' element={<Event/>}/>
+       <Route path='/testimonies' element={<Testimonies/>}/>
+       <Route path='/create-testimony' element={<CreateTestimony/>}/>
+       <Route path='/testimony/:id' element={<Testimony/>}/>
        <Route element={<ProtectedRoute />}>
-       <Route exact path='/profile' element={<Profile/>}/>
-       <Route exact path='/edit-event/:id' element={<EditEvent/>}/>
-       <Route exact path='/create-event/:id' element={<CreateEvent/>}/>
+       <Route path='/profile' element={<Profile/>}/>
+       <Route path='/edit-event/:id' element={<EditEvent/>}/>
+       <Route path='/create-event/:id' element={<CreateEvent/>}/>
        </Route>
-       <Footer/>
         </Routes> 
+        <Footer/>
     </div>
   )
 }

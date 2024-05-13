@@ -1,0 +1,11 @@
+export { default as h1 } from './images/h1.jpeg';
+export { default as h1a } from './images/h1a.jpeg';
+export { default as h1b } from  './images/h1b.jpg';
+export { default as agent } from  './images/agent.jpeg'
+export { default as im1 } from './images/im1.jpg'
+export { default as im2 } from './images/im2.jpg'
+export { default as im3 } from './images/im3.jpg'
+export { default as im4 } from './images/im4.jpg'
+export { default as im5 } from './images/im5.jpg'
+export { default as profile } from  './images/dummy.jpg'
+export { default as loader } from './images/loader1.gif'

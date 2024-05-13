@@ -1,0 +1,658 @@
+import PrimaryButton from 'src/Components/Buttons/PrimaryButton';
+import SelectInput from 'src/Components/SelectInput';
+import { useEffect, useState } from 'react';
+import {
+  GET_COMPANY_MASTER_FILTER,
+  GET_ACCOUNT_MASTER_FILTER,
+  GET_INDUSTRY_MASTER_FILTER,
+  GET_BUSINESS_UNIT_MASTER_FILTER,
+  GET_DEFAULT_CURRENCY_MASTER_FILTER,
+  GET_CITY_MASTER_FILTER,
+  GET_COUNTRY_MASTER_FILTER,
+  GET_SOURCE_MASTER_FILTER,
+  SAVE_CUSTOMER_AS_DRAFT,
+  GET_USER_LIST,
+  GET_CUSTOMER_BY_ID
+} from 'src/Redux/actions/masterdata/customer';
+import { useDispatch, useSelector } from 'react-redux';
+
+const CustomerDetails = ({canEdit,setCanEdit,customerId}) => {
+  
+  const dispatch = useDispatch();
+
+  const {
+    userlist,
+    companyfilteredlist,
+    accountfilteredlist,
+    industryfilteredlist,
+    businessunitfilteredlist,
+    defaultcurrencyfilteredlist,
+    cityfilteredlist,
+    countryfilteredlist,
+    sourcefilteredlist,
+  } = useSelector((state) => state.CustomerManagementList);
+
+  const customer = useSelector((state) => state.CustomerManagementList.customerById);
+
+  const [customercode, setCustomercode] = useState('');
+  const [customername, setCustomerName] = useState('');
+  const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [phoneno, setPhoneno] = useState('');
+  const [email, setEmail] = useState('');
+  
+  const [fax, setFax] = useState('');
+
+  const [filter, setFilter] = useState({
+    cityname: [],
+    countryname: [],
+    sourcename: '',
+  });
+
+    useEffect(() => {
+      if (customer) {
+        setCustomercode(customer.customercode);  
+        setCustomerName(customer.customername);
+        setAddressLine1(customer.addressLine1);
+        setAddressLine2(customer.addressLine2);
+        setPhoneno(customer.phoneno);
+        setEmail(customer.email);
+      }
+  },[customer])
+
+  useEffect(() => {
+    dispatch(GET_USER_LIST());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(GET_CUSTOMER_BY_ID(customerId));
+  }, [dispatch, customerId]);
+
+
+  const [userNames,setUserNames] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [displayUsernames, setDisplayUsernames] = useState(false)
+
+  useEffect(() => {
+  userlist.map((user) => (
+    setUserNames((prev) =>[...prev,{
+      name: user.firstname + " " + user.lastname,
+      empCode: user.employeecode,
+    },])  ))
+  }, [userlist]);
+ console.log("Username",userNames);
+ 
+
+
+
+ const handleChange = (e) => {
+  
+    setSearchTerm(e.target.value);
+    if (e.target.value !== '') {
+      setDisplayUsernames(true);
+   
+    } else {
+      setDisplayUsernames(false);
+    }
+  
+   }
+  
+
+  const handleSelected = (selected, propertyname) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      [propertyname]: selected,
+    }));
+  };
+
+  useEffect(() => {
+    dispatch(GET_COMPANY_MASTER_FILTER());
+    dispatch(GET_ACCOUNT_MASTER_FILTER());
+    dispatch(GET_INDUSTRY_MASTER_FILTER());
+    dispatch(GET_BUSINESS_UNIT_MASTER_FILTER());
+    dispatch(GET_DEFAULT_CURRENCY_MASTER_FILTER());
+    dispatch(GET_CITY_MASTER_FILTER());
+    dispatch(GET_COUNTRY_MASTER_FILTER());
+    dispatch(GET_SOURCE_MASTER_FILTER());
+    dispatch(GET_CUSTOMER_BY_ID());
+  }, [dispatch]);
+
+  console.log('user', userlist);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const customerJSON = {
+      customerjson: [
+        {
+          comtenantid: 3,
+          customername: customername,
+          customergroupid: 1,
+          shortname: 'BCCL1',
+          address_street: addressLine1,
+          address_pobox: addressLine2,
+          address3: 'no3',
+          pincode: 'no1',
+          phoneno: phoneno,
+          comcityid: parseFloat(filter.cityname.comcityid),
+          comstateid: 1,
+          comcountryid: parseFloat(filter.cityname.comcityid),
+          mobile1: '123456789',
+          fax: fax,
+          Source: parseInt(filter.sourcename),
+          customeridinsourcesystem: '',
+          accountmanagerid: 1022,
+          contactpersonid: null,
+          defaultcomcurrencyid: 1,
+          email: email,
+          payment_days: 15,
+          gst_type: null,
+          gst_number: '',
+          isactiveflag: true,
+          createdcomuserid: 1022,
+          notes: 'test notes',
+        },
+      ],
+    };
+    console.log('customerJSON', customerJSON);
+    console.log('ABC', cityfilteredlist);
+    console.log('hi2', filter.cityname);
+
+    console.log(filter.sourcename.sourcename);
+    console.log('Source', filter.Source);
+    console.log('hi19', userlist);
+    dispatch(SAVE_CUSTOMER_AS_DRAFT(customerJSON));
+  };
+  return (
+    <form className='mt-2 w-full h-[65vh] text-sm'>
+      <div className='grid grid-cols-4 gap-2 mt-4'>
+        <div>
+          <label htmlFor='customercode' className='block font-[500] mb-2'>
+            Customer Code
+          </label>
+          {canEdit != null ? (
+          <input 
+            type='text'
+            title='customercode'
+            id='customercode'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='customercode'
+            required=''
+            value={customercode}
+            onChange={(e) => setCustomercode(e.target.value)}
+          />): (
+     <input
+    type="text"
+    title="customercode"
+    id="customercode"
+    className="outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2"
+    placeholder="customercode"
+    required=""
+    value={customercode}
+    disabled={true}
+    />
+)}
+        </div>
+        <div>
+          <label htmlFor='companyname' className='block font-[500] mb-2'>
+            Company
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+           className="outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2"
+           options={companyfilteredlist}
+            keyname='companyname'
+            selected={filter.companyname}
+            setSelected={(selected) => handleSelected(selected, 'companyname')}
+          />):(
+             <select
+            className="outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2"
+            option="companyname"
+            keyname='companyname'
+            selected={customer.companyname}
+            setSelected={(selected) => handleSelected(selected, 'companyname')}
+            placeholer="companyname"
+            disabled
+            />)}
+        </div>
+        <div>
+          <label htmlFor='customername' className='block font-[500] mb-2'>
+            Customer Name
+          </label>
+          {canEdit != null ? (
+          <input
+            type='text'
+            title='customeranme'
+            id='customername'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='customername'
+            required=''
+            value={customername}
+            onChange={(e) => setCustomerName(e.target.value)}
+          />):(
+                 <input
+            type='text'
+            title='customeranme'
+            id='customername'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='customername'
+            required=''
+            value={customername}
+            onChange={(e) => setCustomerName(e.target.value)}
+            disabled={true}
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='account' className='block font-[500] mb-2'>
+            Select Account
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={accountfilteredlist}
+            keyname='customergroupname'
+            selected={filter.customergroupname}
+            setSelected={(selected) =>
+              handleSelected(selected, 'customergroupname')
+            }
+          />):(
+                <select
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={accountfilteredlist}
+            keyname='customergroupname'
+            selected={customer.customergroupname}
+            setSelected={(selected) =>
+              handleSelected(selected, 'customergroupname')
+            }
+            disabled
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='Industry' className='block font-[500] mb-2'>
+            Industry
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={industryfilteredlist}
+            keyname='industryname'
+            selected={filter.industryname}
+            setSelected={(selected) => handleSelected(selected, 'industryname')}
+          />):(
+                <select
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={industryfilteredlist}
+            keyname='industryname'
+            selected={customer.industryname}
+            setSelected={(selected) => handleSelected(selected, 'industryname')}
+            disabled
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='BusinessUnit' className='block font-[500] mb-2'>
+            Business Unit
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={businessunitfilteredlist}
+            keyname='businessunitname'
+            selected={filter.businessunitname}
+            setSelected={(selected) =>
+              handleSelected(selected, 'businessunitname')
+            }
+          />):(
+                <select
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={businessunitfilteredlist}
+            keyname='businessunitname'
+            selected={customer.businessunitname}
+            setSelected={(selected) =>
+              handleSelected(selected, 'businessunitname')
+            }
+            disabled
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='DefaultCurrency' className='block font-[500] mb-2'>
+            Default Currency
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={defaultcurrencyfilteredlist}
+            keyname='currency'
+            selected={filter.currency}
+            setSelected={(selected) => handleSelected(selected, 'currency')}
+          />):(
+                <select
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={defaultcurrencyfilteredlist}
+            keyname='currency'
+            selected={customer.currency}
+            setSelected={(selected) => handleSelected(selected, 'currency')}
+            disabled
+          />
+          )}
+        </div>
+        <div>
+  <label htmlFor="accountmanger" className="block font-[500] mb-2">
+    Account Manager
+  </label>
+  {canEdit != null ? (
+    <div className="relative">
+      <input
+        className="outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2"
+        type="text"
+        placeholder="Search Account Manager"
+        name="searchTerm"
+        value={searchTerm}
+        onChange={(e) => handleChange(e)}
+      />
+      {displayUsernames && (
+        <div className="absolute z-10 grid grid-cols-[auto,1fr] gap-2 items-center w-full max-h-60 overflow-y-auto cursor-pointer rounded-md bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">        {userNames.map((user, index) =>
+    user.name.toUpperCase().match(searchTerm.toUpperCase()) ? (
+      <span
+        className="block w-full p-2"
+        key={index}
+        onClick={() => {
+          setSearchTerm(user.name + " " + user.empCode);
+          setDisplayUsernames(false);
+        }}
+      >
+        <span>{user.name}</span>
+        <span className="text-gray-500 text-xs">{user.empCode}</span>
+      </span>
+            ) : (
+              ''
+            )
+          )}
+        </div>
+      )}
+    </div>
+  ) : (
+    <input
+      className="outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2"
+      type="text"
+      placeholder="Search Account Manager"
+      name="searchTerm"
+      value={searchTerm}
+      onChange={(e) => handleChange(e)}
+      disabled={true}
+    />
+  )}
+</div>
+
+        <div>
+          <label htmlFor='addressline1' className='block font-[500] mb-2'>
+            Address Line 1
+          </label>
+          {canEdit != null ? (
+          <input
+            type='text'
+            title='addressline1'
+            id='addressline1'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='addressline1'
+            required=''
+            value={addressLine1}
+            onChange={(e) => setAddressLine1(e.target.value)}
+          />):(
+                 <input
+            type='text'
+            title='addressline1'
+            id='addressline1'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='addressline1'
+            required=''
+            value={addressLine1}
+            onChange={(e) => setAddressLine1(e.target.value)}
+            disabled={true}
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='addressline2' className='block font-[500] mb-2'>
+            Address Line 2
+          </label>
+          {canEdit != null ? (
+          <input
+            type='text'
+            title='addressline2'
+            id='addressline2'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='addressline2'
+            required=''
+            value={addressLine2}
+            onChange={(e) => setAddressLine2(e.target.value)}
+          />):(
+
+<input
+            type='text'
+            title='addressline2'
+            id='addressline2'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='addressline2'
+            required=''
+            value={addressLine2}
+            onChange={(e) => setAddressLine2(e.target.value)}
+            disabled={true}
+          />
+          )}
+        </div>
+
+        <div>
+          <label htmlFor='cityname' className='block font-[500] mb-2'>
+            City
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={cityfilteredlist}
+            keyname='cityname'
+            selected={cityfilteredlist.find(
+              (city) => city.comcityid === filter.cityname.comcityid
+            )}
+            setSelected={(selected) => {
+              handleSelected(selected, 'cityname');
+            }}
+          />):(
+                 <select
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={cityfilteredlist}
+            keyname='cityname'
+            selected={cityfilteredlist.find(
+              (city) => city.comcityid === filter.cityname.comcityid
+            )}
+            setSelected={(selected) => {
+              handleSelected(selected, 'cityname');
+            }}
+            disabled
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='country' className='block font-[500] mb-2'>
+            Country
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={countryfilteredlist}
+            keyname='countryname'
+            selected={countryfilteredlist.find(
+              (country) =>
+                country.comcountryid === filter.countryname.comcountryid
+            )}
+            setSelected={(selected) => {
+              console.log(handleSelected(selected, 'countryname'));
+            }}
+          />):(
+              <select
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={countryfilteredlist}
+            keyname='countryname'
+            selected={countryfilteredlist.find(
+              (country) =>
+                country.comcountryid === filter.countryname.comcountryid
+            )}
+            setSelected={(selected) => {
+              console.log(handleSelected(selected, 'countryname'));
+            }}
+            disabled
+          />
+          )}
+        </div>
+
+        <div>
+          <label htmlFor='phone' className='block font-[500] mb-2'>
+            Phone
+          </label>
+          {canEdit != null ? (
+          <input
+            type='text'
+            title='phoneno'
+            id='phoneno'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='phoneno'
+            required=''
+            value={phoneno}
+            onChange={(e) => setPhoneno(e.target.value)}
+          />):(
+                <input
+            type='text'
+            title='phoneno'
+            id='phoneno'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='phoneno'
+            required=''
+            value={phoneno}
+            onChange={(e) => setPhoneno(e.target.value)}
+            disabled={true}
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='email' className='block font-[500] mb-2'>
+            Email
+          </label>
+          {canEdit != null ? (
+          <input
+            type='text'
+            title='email'
+            id='email'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='email'
+            required=''
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />):(
+               <input
+            type='text'
+            title='email'
+            id='email'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='email'
+            required=''
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={true}
+
+          />
+          )}
+        </div>
+        <div>
+          <label htmlFor='fax' className='block font-[500] mb-2'>
+            Fax
+          </label>
+          {canEdit != null ? (
+          <input
+            type='text'
+            title='fax'
+            id='fax'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='fax'
+            required=''
+            value={fax}
+            onChange={(e) => setFax(e.target.value)}
+          />):(
+                 <input
+            type='text'
+            title='fax'
+            id='fax'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            placeholder='fax'
+            required=''
+            value={fax}
+            onChange={(e) => setFax(e.target.value)}
+            disabled={true}
+          />
+
+          )}
+        </div>
+        <div>
+          <label htmlFor='source' className='block font-[500] mb-2'>
+            Select Source
+          </label>
+          {canEdit != null ? (
+          <SelectInput
+          required=''
+            type='text'
+            title='sourcename'
+            id='sourcename'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={sourcefilteredlist}
+            keyname='sourcename'
+            selected={filter.sourcename}
+            setSelected={(selected) => handleSelected(selected, 'sourcename')}
+          />):(
+                <select
+            type='text'
+            title='sourcename'
+            id='sourcename'
+            className='outline-gray-100 text-gray-600 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2'
+            options={sourcefilteredlist}
+            keyname='sourcename'
+            selected={customer.sourcename}
+            setSelected={(selected) => handleSelected(selected, 'sourcename')}
+            disabled
+          />
+          )}
+        </div>
+      </div>
+
+      <div className='fixed bottom-0 right-6 mt-2'>
+        {canEdit !== null ? (
+                    <div className='gap-2 flex justify-end items-center'>
+                      <button
+                        onClick={() => {
+                          setCanEdit(null);
+                        }}
+                        className='px-2 border border-primary text-primary rounded h-9 py-1'
+                      >
+                        Cancel
+                      </button>
+                      <PrimaryButton   type=''
+            className='bg-primary text-white rounded-lg py-2 mb-30 mr-8'
+            onClick={handleSubmit}>
+                        Update
+                      </PrimaryButton>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+          {/* <PrimaryButton
+            type=''
+            className='bg-primary text-white rounded-lg py-2 mb-30 mr-8'
+            onClick={handleSubmit}
+          >
+            Update
+          </PrimaryButton> */}
+        </div>
+    </form>
+  );
+};
+
+export default CustomerDetails;

@@ -1,0 +1,64 @@
+/* =========================LOGIN================================== */
+
+.login__header {
+    padding: 15px 0;
+}
+.login__header h3{
+    font-family: "Poppins" sans-serif;
+    color: #000;
+    font-weight: var(--fonts-medium--);
+    font-size: 20px;
+}
+.login__container{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 15px;
+padding: 25px 20px;
+border: 1px solid #7a7a7a;
+border-radius: 5px;
+
+}
+.login__input input{
+    width: 100%;
+    padding: 6px 0;
+    outline: none;
+    font-family: "Poppins" sans-serif;
+    color: #000;
+    font-weight: var(--fonts-medium--);
+    font-size: 15px;
+    border: 1px solid #7a7a7a;
+}
+.login__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;   
+}
+.login__button button{
+    padding: 8px 10px;
+    font-family: "Poppins" sans-serif;
+    background-color: #000;
+    color: #FFFFFF;
+    font-weight: var(--fonts-medium--);
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+
+    
+}
+
+/* ======================PROFILE==================================================== */
+.main__header button{
+    font-family: "Poppins" sans-serif;
+    color: #FFFFFF;
+    font-weight: var(--fonts-medium--);
+    font-size: 15px;
+    padding: 5px 7px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #f33a3a;
+}
+

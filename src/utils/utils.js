@@ -1,4 +1,7 @@
-import { Timestamp,getDoc,doc,setDoc,addDoc,deleteDoc,collection } from "firebase/firestore";
+import { Timestamp
+    ,doc,
+    //getDoc,setDoc,addDoc,
+    deleteDoc,collection } from "firebase/firestore";
 import moment from "moment";
 import { db } from "../firebaseConfig";
 
@@ -9,7 +12,7 @@ export const convertTime = (timestamp) => {
      const finalDate = moment(date).startOf("second").fromNow();
      return finalDate
 }
-export const deletePost = (id) => {
-    const postDocRef = doc(collection(db,`/posts`,id));
+export const deletePost =  (id) => {
+    const postDocRef = doc(db,"posts",id)
     deleteDoc(postDocRef)
 }

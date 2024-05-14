@@ -97,26 +97,27 @@ const CreateEvent = () => {
       });
       Promise.all(promises)
         .then(() => {
-         return  setMessage("upload success")}) 
-          if (message === "upload success") {
-            console.log(message)
-          addDoc(collection(db,`/posts`), {
-            timestamp: serverTimestamp(),
-            imageUrl: urls,
-            postedBy: postedBy,
-            eventTitle: eventTitle,
-            description: description,
-            startDate: startDate,
-            endDate: endDate,
-            time: time,
-            venue:venue,
-            action:action
-    
-          })
-          setLoading(false);
-          setProgress(0)
-          navigate("/");
-        }
+  setMessage("upload success")})
+    if (message === "upload success") {
+      console.log(message)
+    addDoc(collection(db,`/posts`), {
+      timestamp: serverTimestamp(),
+      imageUrl: urls,
+      postedBy: postedBy,
+      eventTitle: eventTitle,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      time: time,
+      venue:venue,
+      action:action
+
+    })
+    setLoading(false);
+    setProgress(0)
+    navigate("/");
+  }
+          
    } catch (error) {
     console.log(error)
    }
@@ -135,9 +136,9 @@ const CreateEvent = () => {
     <div className="main__container">
     
       <div className="main__create">
-        <form onSubmit={handlePost} className="main__form">
+        <form className="main__form">
           <div className="">
-          {/* <label>Upload Images:</label> */}
+          <label>Upload Images (Single/Multiple):</label>
           <IconButton
               color="primary"
               aria-label="upload picture"
@@ -231,7 +232,7 @@ const CreateEvent = () => {
           <div className="login__button">
             {
               formData.eventTitle && (
-                <button type="submit">POST</button>
+                <button type="button" onClick={handlePost}>POST</button>
               )
             }
           </div>

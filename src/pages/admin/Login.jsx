@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { auth, db } from "../../firebaseConfig";
 import { collection,
-  getDoc,doc,setDoc, 
+  getDoc,doc,
+  //setDoc, 
   //query, onSnapshot, orderBy,addDoc,deleteDoc, serverTimestamp 
 } from "firebase/firestore";
 import './admin.css'
 import {
-  createUserWithEmailAndPassword,
+  //createUserWithEmailAndPassword,
 
   signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -23,25 +24,25 @@ const Login = () => {
    
   });
 
-  const register = () => {
-    try {
-      const {username,firstName, lastName, email, password,phoneNumber} = formData;
-      createUserWithEmailAndPassword(auth, email, password)
-      .then(()=>{
-        const colRef = collection(db,"users")
-        setDoc(doc(colRef,auth.currentUser.uid), {
-          displayName: username,
-          phoneNumber:phoneNumber,
-          fullName: firstName + ' ' + lastName,
-            email,
-            id:auth.currentUser.uid
-           })
-        navigate("/")
-           })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const register = () => {
+  //   try {
+  //     const {username,firstName, lastName, email, password,phoneNumber} = formData;
+  //     createUserWithEmailAndPassword(auth, email, password)
+  //     .then(()=>{
+  //       const colRef = collection(db,"users")
+  //       setDoc(doc(colRef,auth.currentUser.uid), {
+  //         displayName: username,
+  //         phoneNumber:phoneNumber,
+  //         fullName: firstName + ' ' + lastName,
+  //           email,
+  //           id:auth.currentUser.uid
+  //          })
+  //       navigate("/")
+  //          })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const handleInputChange = (e) => {
     const value = e.target.value;

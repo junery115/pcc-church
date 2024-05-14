@@ -12,10 +12,11 @@ import { Link, useParams } from 'react-router-dom';
 const Event = () => {
   const { id } = useParams()
   const { state } = useLocation()
-  const user = localStorage.getItem("user")
+  const user = JSON.parse(localStorage.getItem("user"))
   const {displayName } = user || {}
   const { eventTitle, imageUrl, description, timestamp, startDate, time, venue } = state
   const date = convertTime(timestamp)
+ 
 
   return (
     <div className=''>
@@ -46,7 +47,7 @@ const Event = () => {
       {
         displayName && (
           <div className="gallery__item-actions">
-            <Link to={`/edit-event/${id}`} className='gallery__item-edit-link' state={state}>
+            <Link to={`/edit/${id}`} className='gallery__item-edit-link' state={state}>
               <EditIcon />
             </Link>
             <DeleteIcon onClick={() => deletePost(id)} />

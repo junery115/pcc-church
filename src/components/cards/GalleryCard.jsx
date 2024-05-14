@@ -7,7 +7,7 @@ import { convertTime,deletePost } from '../../utils/utils';
 
 const GalleryCard = ({ item, id }) => {
   const { eventTitle, imageUrl, timestamp } = item
-  const user = localStorage.getItem("user")
+  const user = JSON.parse(localStorage.getItem("user"))
   const {displayName } = user || {}
   const date = convertTime(timestamp)
 
@@ -23,7 +23,7 @@ const GalleryCard = ({ item, id }) => {
       {
         displayName && (
           <div className="gallery__item-actions">
-            <Link to={`/gallery/${id}`} className='gallery__item-edit-link' state={item}>
+            <Link to={`/edit/${id}`} className='gallery__item-edit-link' state={item}>
             <EditIcon />
             </Link>
             <DeleteIcon onClick={() => deletePost(id)}/>

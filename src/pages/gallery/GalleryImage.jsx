@@ -8,11 +8,12 @@ import { Link, useParams } from 'react-router-dom';
 
 const GalleryImage = () => {
   const { id } = useParams()
-  const user = localStorage.getItem("user")
+  const user = JSON.parse(localStorage.getItem("user"))
   const {displayName } = user || {}
   const { state } = useLocation()
   const { eventTitle, imageUrl, description, timestamp } = state
   const date = convertTime(timestamp)
+  console.log(state)
   return (
     <div className="imageSlider-container">
       <Carousel
@@ -48,7 +49,7 @@ const GalleryImage = () => {
       {
        displayName && (
           <div className="gallery__item-actions">
-            <Link to={`/gallery/${id}`} className='gallery__item-edit-link' state={state}>
+            <Link to={`/edit/${id}`} className='gallery__item-edit-link' state={state}>
               <EditIcon />
             </Link>
             <DeleteIcon onClick={() => deletePost(id)} />

@@ -62,10 +62,9 @@ function App() {
         <Route path='/create-testimony' element={<CreateTestimony />} />
         <Route path='/testimony/:id' element={<Testimony />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/profile/:name' element={<Profile />} />
         <Route element={<ProtectedRoute />}>
-
-          <Route path='/edit-event/:id' element={<EditEvent />} />
+        <Route path='/profile/:name' element={<Profile />} />
+          <Route path='/edit/:id' element={<EditEvent />} />
           <Route path='/create-event/:id' element={<CreateEvent />} />
         </Route>
       </Routes>

@@ -1,16 +1,20 @@
 import React from 'react'
 import { auth, } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 import './admin.css'
 import CreateEvent from './CreateEvent';
 
 const Profile = () => {
-   const  user  = localStorage.getItem("user")
+  const navigate = useNavigate()
+   const  user  = JSON.parse(localStorage.getItem("user"))
   const { displayName } = user || {}
   const logOut = () => {
     signOut(auth)
     localStorage.clear()
+    navigate('/')
+
   }
 
 
@@ -20,7 +24,7 @@ const Profile = () => {
      <div className="">
      <div className="main__header">
         <h3>{!displayName ? "ADMIN" : displayName}</h3>
-        <button onClick={logOut}>log out</button>
+        <button type='btn' onClick={logOut}>log out</button>
       </div>
      </div>
       <div className="main__container">

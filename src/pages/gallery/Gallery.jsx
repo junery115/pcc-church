@@ -8,6 +8,13 @@ const Gallery = () => {
   const gallery = JSON.parse(localStorage.getItem("gallery"))
   return (
     <div className='gallery'>
+      {
+        gallery?.length === 0 && (
+          <div className="gallery__message">
+        <h3>There are no events at the moment</h3>
+      </div>
+        )
+      }
       <div className="gallery__items">
         {
           gallery?.map(({ post, id }) => (

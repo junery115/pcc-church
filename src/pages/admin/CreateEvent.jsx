@@ -63,22 +63,6 @@ const CreateEvent = () => {
       action,
       venue
     } = formData
-    if(action === "events"){
-      addDoc(collection(db, `/events`), {
-        timestamp: serverTimestamp(),
-        imageUrls: urls,
-        postedBy: postedBy,
-        eventTitle: eventTitle,
-        description: description,
-        startDate: startDate,
-        endDate: endDate,
-        time: time,
-        venue:venue
-
-      })
-      setLoading(false);
-        navigate("/");
-    }else{
       const promises = [];
       images.map((image) => {
         if (!image) {
@@ -86,7 +70,7 @@ const CreateEvent = () => {
         } else {
           setError("");
         
-          const storageRef = ref(storage, `/galleryMedia/${image.name}`);
+          const storageRef = ref(storage, `/galleryAndEventsMedia/${image.name}`);
           const uploadTask = uploadBytesResumable(storageRef, image);
           promises.push(uploadTask);
           uploadTask.on(
@@ -111,29 +95,30 @@ const CreateEvent = () => {
           }
         return null
       });
-  
       Promise.all(promises)
         .then(() => {
-          setMessage("upload success");
-        })
-        .catch((err) => console.log(err));
-      if (message === "upload success") {
-          addDoc(collection(db, `/gallery`), {
+         return  setMessage("upload success")}) 
+          if (message === "upload success") {
+            console.log(message)
+          addDoc(collection(db,`/posts`), {
             timestamp: serverTimestamp(),
-            imageUrls: urls,
+            imageUrl: urls,
+            postedBy: postedBy,
             eventTitle: eventTitle,
             description: description,
+            startDate: startDate,
+            endDate: endDate,
+            time: time,
+            venue:venue,
+            action:action
+    
           })
+          setLoading(false);
+          setProgress(0)
+          navigate("/");
         }
-        setProgress(0);
-        setPreviewImages(null);
-        setLoading(false);
-        navigate("/");
-    }
-      
    } catch (error) {
     console.log(error)
-    setLoading(false);
    }
   }
   return (
@@ -151,9 +136,6 @@ const CreateEvent = () => {
     
       <div className="main__create">
         <form onSubmit={handlePost} className="main__form">
-        {
-          formData.action === "gallery" && (
-         <>
           <div className="">
           {/* <label>Upload Images:</label> */}
           <IconButton
@@ -189,8 +171,6 @@ const CreateEvent = () => {
                 )
             )}
           </div>
-         </>
-          )}
           {previewImages?.map(
           (image, index) =>
             image && (

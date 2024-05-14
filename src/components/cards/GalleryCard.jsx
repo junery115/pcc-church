@@ -2,32 +2,37 @@ import React from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import './cards.css'
-//import moment from "moment";
+import { convertTime,deletePost } from '../../utils/utils';
 
-const GalleryCard = ({item}) => {
-  const {eventTitle,imageUrls,description,timestamp,id } = item
+
+const GalleryCard = ({ item, id }) => {
+  const { eventTitle, imageUrl, timestamp } = item
   const user = localStorage.getItem("user")
+  const {displayName } = user || {}
+  const date = convertTime(timestamp)
+
   return (
     <div className='gallery__item'>
       <div className="gallery__item-imageContainer">
-        <img src={imageUrls[0]} alt="" />
+        <img src={imageUrl[0]} alt="" />
       </div>
-<div className="gallery__item-info">
-  <h5>{eventTitle}</h5>
-  <Link to={`/gallery/${id}`} className='gallery__item-link' state={item}>see more</Link>
-</div>
-{
-  user && (
-    <div className="gallery__item-actions">
-  <EditIcon/>
-  <DeleteIcon/>
-</div>
-  )
-}
-<div className="gallery__item-timestamp">
- <h5>{timestamp}</h5>
-</div>
+      <div className="gallery__items-info">
+        <h5>{eventTitle}</h5>
+        <Link to={`/gallery/${id}`} className='gallery__item-link' state={item}>see more</Link>
+      </div>
+      {
+        displayName && (
+          <div className="gallery__item-actions">
+            <Link to={`/gallery/${id}`} className='gallery__item-edit-link' state={item}>
+            <EditIcon />
+            </Link>
+            <DeleteIcon onClick={() => deletePost(id)}/>
+          </div>
+        )
+      }
+      <div className="gallery__item-timestamp">
+        <h5>{date}</h5>
+      </div>
     </div>
   )
 }

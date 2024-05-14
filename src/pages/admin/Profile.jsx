@@ -6,7 +6,7 @@ import './admin.css'
 import CreateEvent from './CreateEvent';
 
 const Profile = () => {
-   const { user } = localStorage.getItem("user")
+   const  user  = localStorage.getItem("user")
   const { displayName } = user || {}
   const logOut = () => {
     signOut(auth)
@@ -20,7 +20,7 @@ const Profile = () => {
      <div className="">
      <div className="main__header">
         <h3>{!displayName ? "ADMIN" : displayName}</h3>
-        <button onClick={logOut}>LOG OUT</button>
+        <button onClick={logOut}>log out</button>
       </div>
      </div>
       <div className="main__container">

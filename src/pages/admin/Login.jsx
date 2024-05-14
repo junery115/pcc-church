@@ -14,20 +14,18 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username:"",
-    email: "pcc_beltsville24@gmail.com",
-    password: "pcc_belts@ville24",
-    firstName: '',
-    lastName:'',
-    country:'',
-    city:'',
+    username:"pcc_beltsville",
+    email: "pcc24@gmail.com",
+    password: "123456789",
+    firstName: 'pcc',
+    lastName:'beltsville',
     phoneNumber:'',
-    role:"",
+   
   });
 
   const register = () => {
     try {
-      const {username,firstName, lastName, email,role, country,city, password,phoneNumber} = formData;
+      const {username,firstName, lastName, email, password,phoneNumber} = formData;
       createUserWithEmailAndPassword(auth, email, password)
       .then(()=>{
         const colRef = collection(db,"users")
@@ -35,9 +33,6 @@ const Login = () => {
           displayName: username,
           phoneNumber:phoneNumber,
           fullName: firstName + ' ' + lastName,
-          country:country,
-          city:city,
-          role:role,
             email,
             id:auth.currentUser.uid
            })
@@ -72,7 +67,7 @@ const name = snapshot.data().displayName;
   };
   return (
     <div className="main">
-  <button onClick={register}>Register</button>
+  {/* <button onClick={register}>Register</button> */}
       <div className="login__header">
         <h3>LOGIN ADMIN</h3>
       </div>

@@ -1,11 +1,11 @@
 import { Navigate,Outlet } from "react-router-dom";
-//import { useSelector } from "react-redux";
+
  const ProtectedRoute = ({
   redirectPath = '/',
 }) => {
-  const { user } = "Admin";
-  //const { displayName } = user || {};
-  if (!user) {
+  const user = localStorage.getItem("user")
+  const {displayName } = user || {}
+  if (!displayName) {
     return <Navigate to={redirectPath} />;
   }
 

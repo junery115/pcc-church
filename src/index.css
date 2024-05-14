@@ -317,12 +317,18 @@ object-fit: contain;
 }
 
 .app__topIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
+  width: 58px;
+  height: 60px;
   bottom: 55px;
   right: 20px;
   position: fixed;
   color: #c2c2d6;
-  font-size: 30px;
+  font-size: 50px;
+  background-color: #000000;
   cursor: pointer;
 }
 

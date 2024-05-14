@@ -18,7 +18,7 @@ padding: 20px 0;
 .gallery__items{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     gap: 15px; 
 }

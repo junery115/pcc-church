@@ -1,7 +1,7 @@
 import { Timestamp
     ,doc,
     //getDoc,setDoc,addDoc,
-    deleteDoc,collection } from "firebase/firestore";
+    deleteDoc} from "firebase/firestore";
 import moment from "moment";
 import { db } from "../firebaseConfig";
 

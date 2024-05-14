@@ -1,0 +1,16 @@
+PCC Bellville Web Project
+
+Home Page
+About Us
+Events Page
+Contact
+Gallery
+Testimonies,
+Admin Login
+Profile
+Create Event
+Edit Event
+Delete 
+Socials Icons
+Footer
+Image Carousel,

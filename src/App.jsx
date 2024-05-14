@@ -8,6 +8,7 @@ import StraightIcon from '@mui/icons-material/Straight';
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from './firebaseConfig';
 
+
 function App() {
   const [displayScroll, setDisplayScroll] = useState(false);
   const scrollY = useScrollPosition(60 /*frames per second*/);
@@ -68,18 +69,19 @@ function App() {
           <Route path='/create-event/:id' element={<CreateEvent />} />
         </Route>
       </Routes>
+      {
+        displayScroll && (
       <a href="#top">
-        {displayScroll && (
-          <div className="app__icon">
-            <StraightIcon
-              size={30}
-              color="#4db5ff"
-              className="app__topIcon"
-              onClick={scrollToTop}
-            />
-          </div>
-        )}
-      </a>
+       <div className="app__topIcon">
+         <StraightIcon
+           fontSize='inherit'
+           className=""
+           onClick={scrollToTop}
+         />
+       </div>
+   </a>
+        )
+      }
       <Footer />
     </>
   )

@@ -30,6 +30,15 @@ border-radius: 5px;
     font-size: 15px;
     border: 1px solid #7a7a7a;
 }
+.login__input-upload{
+    width: 100%;
+    padding: 6px 0;
+    outline: none;
+    font-family: "Poppins" sans-serif;
+    color: #000;
+    font-weight: var(--fonts-medium--);
+    font-size: 14px;
+}
 .login__button{
     display: flex;
     justify-content: center;

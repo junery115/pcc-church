@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useCallback } from 'react'
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { storage,db } from '../../firebaseConfig';
@@ -49,79 +49,81 @@ const CreateEvent = () => {
     }
   };
 
-  const handlePost = (e) => {
-   e.preventDefault();
-   setLoading(true);
-   try {
-    const {
-      eventTitle,
-      description,
-      startDate,
-      endDate,
-      time,
-      postedBy,
-      action,
-      venue
-    } = formData
-      const promises = [];
-      images.map((image) => {
-        if (!image) {
-          setError("upload error");
-        } else {
-          setError("");
-        
-          const storageRef = ref(storage, `/galleryAndEventsMedia/${image.name}`);
-          const uploadTask = uploadBytesResumable(storageRef, image);
-          promises.push(uploadTask);
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const percent = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              );
-              setProgress(percent);
-            },
-            (err) => {
-              const errorMessage = err.message;
-              setError(errorMessage);
-            },
-            async () => {
-              await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                setUrls((prevState) => [...prevState, url]);
-              });
-            }
-          );
-        
-          }
-        return null
-      });
-      Promise.all(promises)
-        .then(() => {
-  setMessage("upload success")})
-    if (message === "upload success") {
-      console.log(message)
-    addDoc(collection(db,`/posts`), {
-      timestamp: serverTimestamp(),
-      imageUrl: urls,
-      postedBy: postedBy,
-      eventTitle: eventTitle,
-      description: description,
-      startDate: startDate,
-      endDate: endDate,
-      time: time,
-      venue:venue,
-      action:action
-
-    })
-    setLoading(false);
-    setProgress(0)
-    navigate("/");
-  }
-          
-   } catch (error) {
-    console.log(error)
-   }
-  }
+  const handlePost = useCallback((e) => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+       const {
+         eventTitle,
+         description,
+         startDate,
+         endDate,
+         time,
+         postedBy,
+         action,
+         venue
+       } = formData
+         const promises = [];
+         images.map((image) => {
+           if (!image) {
+             setError("upload error");
+           } else {
+             setError("");
+           
+             const storageRef = ref(storage, `/galleryAndEventsMedia/${image.name}`);
+             const uploadTask = uploadBytesResumable(storageRef, image);
+             promises.push(uploadTask);
+             uploadTask.on(
+               "state_changed",
+               (snapshot) => {
+                 const percent = Math.round(
+                   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                 );
+                 setProgress(percent);
+               },
+               (err) => {
+                 const errorMessage = err.message;
+                 setError(errorMessage);
+               },
+               async () => {
+                 await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                   setUrls((prevState) => [...prevState, url]);
+                 });
+               }
+             );
+           
+             }
+           return null
+         });
+         Promise.all(promises)
+           .then(() => {
+     setMessage("upload success")})
+       if (message === "upload success") {
+         console.log(message)
+       addDoc(collection(db,`/posts`), {
+         timestamp: serverTimestamp(),
+         imageUrl: urls,
+         postedBy: postedBy,
+         eventTitle: eventTitle,
+         description: description,
+         startDate: startDate,
+         endDate: endDate,
+         time: time,
+         venue:venue,
+         action:action
+   
+       })
+       setLoading(false);
+       setProgress(0)
+       navigate("/");
+     }
+             
+      } catch (error) {
+       console.log(error)
+      }
+    
+  }, [formData,images,message,urls,navigate])
+  
   return (
     <div className='main'>
     <div className="main__header">
@@ -137,8 +139,8 @@ const CreateEvent = () => {
     
       <div className="main__create">
         <form className="main__form">
-          <div className="">
-          <label>Upload Images (Single/Multiple):</label>
+          <div>
+          <label className="login__input-upload">Upload Images (Single/Multiple):</label>
           <IconButton
               color="primary"
               aria-label="upload picture"

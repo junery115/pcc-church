@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy,Suspense} from 'react'
 import useScrollPosition from "@react-hook/window-scroll";
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import { About, Contact, Events, Gallery, GalleryImage, Home, Event, Profile, EditEvent, CreateEvent, Testimony, CreateTestimony, Testimonies, Login } from './pages'
+import { About, Contact, GalleryImage, Home, Event, Profile, EditEvent, CreateEvent, Testimony, CreateTestimony, Testimonies, Login } from './pages'
 import { Navbar, Footer, ProtectedRoute } from './components'
 import StraightIcon from '@mui/icons-material/Straight';
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from './firebaseConfig';
 
+const Events = lazy(() => import('./pages/events/Events'));
+const Gallery = lazy(() => import('./pages/gallery/Gallery'));
 
 function App() {
   const [displayScroll, setDisplayScroll] = useState(false);
@@ -48,7 +50,7 @@ function App() {
   }, [scrollY]);
   return (
 
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -83,7 +85,7 @@ function App() {
         )
       }
       <Footer />
-    </>
+    </Suspense>
   )
 }
 

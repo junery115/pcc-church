@@ -74,7 +74,7 @@ function App() {
       <a href="#top">
        <div className="app__topIcon">
          <StraightIcon
-           fontSize='inherit'
+           fontSize='small'
            className=""
            onClick={scrollToTop}
          />

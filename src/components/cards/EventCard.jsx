@@ -24,16 +24,16 @@ const EventCard = ({ item, id }) => {
           <h5>{eventTitle}</h5>
         </div>
         <div className="gallery__item-info">
-          <EventAvailableIcon /><h5>{startDate}</h5>
+          <EventAvailableIcon fontSize='small'/><h5>{startDate}</h5>
         </div>
         <div className="gallery__item-info">
-          <ScheduleRoundedIcon /><h5>{time}</h5>
+          <ScheduleRoundedIcon fontSize='small'/><h5>{time}</h5>
         </div>
         <div className="gallery__item-info">
-          <LocationOnIcon /><h5>{venue}</h5>
+          <LocationOnIcon fontSize='small'/><h5>{venue}</h5>
         </div>
         <div className="gallery__item-info">
-          <h5>{date}</h5>
+          <h5>Posted {date}</h5>
         </div>
       </div>
       <div className="gallery__item-info-title">

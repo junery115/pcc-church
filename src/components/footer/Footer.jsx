@@ -1,62 +1,15 @@
 import React from 'react'
 import './footer.css'
 import { Link } from 'react-router-dom'
-import { email, facebook, instagram, podcast, soundCloud, spotify, twitter, youtube } from '../../assets'
+import { email, facebook, instagram,  logo,  twitter, } from '../../assets'
+import FooterSeries from './FooterSeries'
 
 const Footer = () => {
   const user = JSON.parse(localStorage.getItem("user"))
   const { displayName } = user || {}
   return (
     <div className='footer'>
-      <div className="footer__message">
-        <div className="footer__series">
-          <div className="footer__current-series">
-            <div className="footer__current-series-left">
-              <div className="footer__current-seriesHeader">
-                <h3>CURRENT SERIES</h3>
-                <h2>Shape Your Life with the Words of Life.</h2>
-              </div>
-              <div className="footer__current-series-body">
-                <p>Aut sed amet et quis aliquid laborum minus consequatur. Animi repellendus quas. Est voluptates minima ut dolorum aliquid sint. Ratione et et molestias rerum quibusdam. Deserunt suscipit ut expedita. Non numquam aut eum perferendis molestiae praesentium aliquid voluptatum numquam dolorum aliquid sint minima.</p>
-              </div>
-            </div>
-            <div className="footer__current-series-right">
-              <Link to='/events' className="footer__current-seriesLink">
-                CHECKOUT EVENTS
-              </Link>
-              <Link to='/create-testimony' className="footer__current-seriesLink">
-                SHARE YOUR STORY
-              </Link>
-              <div className="footer__current-series-right-line"></div>
-              <div className="footer__current-series-right-text">
-                <p>Never missed a message. Subscribe to our YouTube and Podcast channels.</p>
-              </div>
-              <div className="footer__socials-streaming">
-                <Link to='/'>
-                  <div className="footer__social-streaming">
-                    <img src={podcast} alt="" />
-                  </div>
-                </Link>
-                <Link to='/'>
-                  <div className="footer__social-streaming">
-                    <img src={spotify} alt="" />
-                  </div>
-                </Link>
-                <Link to='/'>
-                  <div className="footer__social-streaming">
-                    <img src={soundCloud} alt="" />
-                  </div>
-                </Link>
-                <Link to='/'>
-                  <div className="footer__social-streaming">
-                    <img src={youtube} alt="" />
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <FooterSeries/>
       <div className="footer__socials">
         <Link to='/'>
           <div className="footer__social">
@@ -82,7 +35,7 @@ const Footer = () => {
       <div className="footer__links">
         <div className="footer__main-links">
           <Link to='/' className='footer__link-main'>
-            PCC-BELTSVILLE
+          <img src={logo} alt="" />
           </Link>
           {
             displayName ? (
@@ -91,6 +44,9 @@ const Footer = () => {
               <Link to="/login" className="footer__link">Admin</Link>
             )
           }
+          <div className="footer__link-text">
+            <p>Laborum ad explicabo. Molestiae voluptates est. Quisquam labore tenetur et assumenda voluptatibus a beatae. Rerum odio ducimus reprehenderit sit animi laborum nostrum dolorum animi voluptates est voluptatibus a beatae.</p>
+          </div>
         </div>
         <div className="footer__side-links">
           <div className="footer__side-links-location">
@@ -112,6 +68,9 @@ const Footer = () => {
             </Link>
             <Link to='/events' className='footer__link'>
               Events
+            </Link>
+            <Link to='/testimonies' className='footer__link'>
+             Testimonies
             </Link>
             <Link to='/contact-us' className='footer__link'>
               Contact

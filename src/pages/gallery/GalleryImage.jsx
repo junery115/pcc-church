@@ -43,7 +43,7 @@ const GalleryImage = () => {
           <p>{description}</p>
         </div>
         <div className="gallery__item-info">
-          <h5>{date}</h5>
+          <h5>posted {date}</h5>
         </div>
       </div>
       {

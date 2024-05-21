@@ -51,7 +51,7 @@ const CreateEvent = () => {
 
   const handlePost = useCallback((e) => {
       e.preventDefault();
-      setLoading(true);
+      setLoading(true)
       try {
        const {
          eventTitle,
@@ -89,6 +89,7 @@ const CreateEvent = () => {
                  await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                    setUrls((prevState) => [...prevState, url]);
                  });
+                 console.log(urls)
                }
              );
            
@@ -98,27 +99,27 @@ const CreateEvent = () => {
          Promise.all(promises)
            .then(() => {
      setMessage("upload success")})
-       if (message === "upload success") {
-         console.log(message)
-       addDoc(collection(db,`/posts`), {
-         timestamp: serverTimestamp(),
-         imageUrl: urls,
-         postedBy: postedBy,
-         eventTitle: eventTitle,
-         description: description,
-         startDate: startDate,
-         endDate: endDate,
-         time: time,
-         venue:venue,
-         action:action
-   
-       })
-       setLoading(false);
-       setProgress(0)
-       navigate("/");
-     }
-             
-      } catch (error) {
+     .catch((error) => console.log(error))
+   if(message === "upload success"){
+      addDoc(collection(db,`/posts`), {
+        timestamp: serverTimestamp(),
+        imageUrl: urls,
+        postedBy: postedBy,
+        eventTitle: eventTitle,
+        description: description,
+        startDate: startDate,
+        endDate: endDate,
+        time: time,
+        venue:venue,
+        action:action
+  
+      })
+      setLoading(false);
+      setProgress(0)
+      navigate("/");
+     
+   }  
+ } catch (error) {
        console.log(error)
       }
     

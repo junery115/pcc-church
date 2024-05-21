@@ -21,6 +21,7 @@ const CreateTestimony = () => {
     testimony: "",
     country: "",
     city: "",
+    title:"",
     homeAddress: "",
     phoneNumber: "",
   })
@@ -46,11 +47,12 @@ const CreateTestimony = () => {
     testimony,
     country,
     city,
+    title,
     homeAddress,
     phoneNumber
   } = formData
     if (!image) {
-      setError("upload error");
+      setError("please upload a photo");
     } else {
       setError("");
       setLoading(true);
@@ -79,6 +81,7 @@ const CreateTestimony = () => {
               city: city,
               homeAddress: homeAddress,
               phoneNumber: phoneNumber,
+              title:title
             })
             setProgress(0);
             setPreviewImage(null);
@@ -112,6 +115,7 @@ const CreateTestimony = () => {
               accept="image/*"
               type="file"
               multiple
+              required
               onChange={onFileChangeHandler}
             />
             <CameraAltIcon size={20} color="inherit" />
@@ -172,7 +176,13 @@ const CreateTestimony = () => {
             type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} required
           />
         </div>
-        
+        <div className="main__input">
+          <label>Title:</label>
+          <input
+            type="text" name="title" value={formData.title} onChange={handleInputChange}
+            required
+          />
+        </div>
         <div className="main__input">
         <label>Description:</label>
           <textarea placeholder='Event description' cols="35" rows="3"

@@ -5,21 +5,24 @@ import { Link } from 'react-router-dom';
 import { convertTime,deletePost } from '../../utils/utils';
 
 
-const GalleryCard = ({ item, id }) => {
-  const { eventTitle, imageUrl, timestamp } = item
+const TestimonyCard = ({ item, id }) => {
+    const { 
+        testimony,
+        title,
+        timestamp
+      } = item
   const user = JSON.parse(localStorage.getItem("user"))
   const {displayName } = user || {}
   const date = convertTime(timestamp)
 
   return (
     <div className='gallery__item'>
-      <div className="gallery__item-imageContainer">
-        <img src={imageUrl[0]} alt="" />
-      </div>
       <div className="gallery__items-info">
-        <h5>{eventTitle}</h5>
-        <Link to={`/gallery/${id}`} className='gallery__item-link' state={item}>see more</Link>
+        <h5 style={{color:"#2196f3", padding:"10px 0"}}>{title}</h5>      
       </div>
+      <div className="gallery__item-info-description">
+          <p>{testimony?.slice(0,150)}...<Link to={`/testimony/${id}`} className='gallery__item-link' state={item}>see more</Link></p>
+        </div>
       {
         displayName && (
           <div className="gallery__item-actions">
@@ -37,4 +40,4 @@ const GalleryCard = ({ item, id }) => {
   )
 }
 
-export default GalleryCard
+export default TestimonyCard
